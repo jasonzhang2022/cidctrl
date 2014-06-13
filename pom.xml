@@ -1,0 +1,122 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>test</groupId>
+	<artifactId>cdictrl</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<version.org.jboss.shrinkwrap>2.0.0</version.org.jboss.shrinkwrap>
+		<version.org.jboss.arquillian>1.1.1.Final</version.org.jboss.arquillian>
+		<version.org.jboss.arquillian.drone>1.2.1.Final</version.org.jboss.arquillian.drone>
+
+		<!-- use 2.39.0 to support firsfox 26 -->
+		<version.selenium>2.39.0</version.selenium>
+		<!-- use old Guana to avoid conflict with CDI -->
+		<version.com.google.guana>14.0.1</version.com.google.guana>
+
+		<version.jersey>2.9</version.jersey>
+		<version.deltaspike>0.7</version.deltaspike>
+		<version.eclipselink>2.5.1</version.eclipselink>
+		<version.weld>2.2.1.Final</version.weld>
+	</properties>
+	<dependencies>
+
+		<!-- CDI API DeltaSpike -->
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+			<version>1.2</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>1.1</version>
+			<exclusions>
+				<!-- In Tomcat -->
+				<exclusion>
+					<groupId>javax.el</groupId>
+					<artifactId>el-api</artifactId>
+				</exclusion>
+				<!-- In Annotation -->
+				<exclusion>
+					<groupId>javax.inject</groupId>
+					<artifactId>javax.inject</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jboss.spec.javax.interceptor</groupId>
+					<artifactId>jboss-interceptors-api_1.1_spec</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.annotation</groupId>
+					<artifactId>jsr250-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.glassfish.hk2.external</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>2.2.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.apache.deltaspike.core</groupId>
+			<artifactId>deltaspike-core-impl</artifactId>
+			<version>${version.deltaspike}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.deltaspike.cdictrl</groupId>
+			<artifactId>deltaspike-cdictrl-weld</artifactId>
+			<version>${version.deltaspike}</version>
+		</dependency>
+
+
+		<!-- CDI: WELD, DeltaSpike -->
+		<dependency>
+			<groupId>org.jboss.weld.servlet</groupId>
+			<artifactId>weld-servlet</artifactId>
+			<version>${version.weld}</version>
+		</dependency>
+
+
+
+		<!-- jersey for RESTFUL -->
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet</artifactId>
+			<version>${version.jersey}</version>
+		</dependency>
+		<!-- this is critical to make jersey aware of CDI implemnetation:weld -->
+		<dependency>
+			<groupId>org.glassfish.jersey.containers.glassfish</groupId>
+			<artifactId>jersey-gf-cdi</artifactId>
+			<version>${version.jersey}</version>
+		</dependency>
+
+
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.1</version>
+					<configuration>
+						<source>1.7</source>
+						<target>1.7</target>
+
+						<!-- debug must be true and easy code coverage and annotation process -->
+						<debug>true</debug>
+					</configuration>
+				</plugin>
+		</plugins>
+	</build>
+</project>
